@@ -1,37 +1,46 @@
 import React, { useState, useEffect } from 'react';
+
 const Header = () => {
-  const [quote, setQuote] = useState('');
-  const [author, setAuthor] = useState('');
-  useEffect(() => {
-    fetchQuote();
-  }, []);
-  const fetchQuote = async () => {
-    try {
-      const response = await fetch('https://api.adviceslip.com/advice');
-      const data = await response.json();
-      setQuote(data.slip.advice);
-      setAuthor('Wisdom Quote');
-    } catch (error) {
-      console.log('Using fallback quotes');
-      const fallbackQuotes = [
-        { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
-        { text: "Code is like humor. When you have to explain it, it's bad.", author: "Cory House" },
-        { text: "The only way to learn a new programming language is by writing programs in it.", author: "Dennis Ritchie" },
-        { text: "First, solve the problem. Then, write the code.", author: "John Johnson" },
-        { text: "Programming isn't about what you know; it's about what you can figure out.", author: "Chris Pine" }
-      ];
-      const randomQuote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
-      setQuote(randomQuote.text);
-      setAuthor(randomQuote.author);
-    }
+  const [advice, setAdvice] = useState('Click button to get advice');
+  const [loading, setLoading] = useState(false);
+
+  const getAdvice = () => {
+    setLoading(true);
+    
+    // Using fetch with .then() syntax (simpler)
+    fetch('https://api.adviceslip.com/advice')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.slip && data.slip.advice) {
+          setAdvice(data.slip.advice);
+        } else {
+          setAdvice("Believe you can and you're halfway there.");
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching advice:', error);
+        setAdvice("The secret of getting ahead is getting started.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
+
+  useEffect(() => {
+    getAdvice(); // Load advice on component mount
+  }, []);
 
   return (
     <div style={{
       background: 'white',
       borderRadius: '12px',
-      padding: '24px',
-      marginBottom: '24px',
+      padding: '25px',
+      marginBottom: '25px',
       boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
     }}>
       <div style={{
@@ -63,18 +72,21 @@ const Header = () => {
             fontSize: '18px',
             color: '#1f2937',
             marginBottom: '12px'
-          }}>"{quote || 'Loading inspiration...'}"</p>
+          }}>
+            "{advice}"
+          </p>
           
-          {author && (
-            <p style={{
-              color: '#6b7280',
-              fontSize: '14px',
-              marginBottom: '16px'
-            }}>— {author}</p>
-          )}
+          <p style={{
+            fontSize: '12px',
+            color: '#6b7280',
+            marginBottom: '15px'
+          }}>
+            API: adviceslip.com
+          </p>
           
           <button
-            onClick={fetchQuote}
+            onClick={getAdvice}
+            disabled={loading}
             style={{
               padding: '8px 16px',
               background: '#4f46e5',
@@ -83,14 +95,16 @@ const Header = () => {
               borderRadius: '6px',
               fontSize: '14px',
               fontWeight: '500',
-              cursor: 'pointer'
+              cursor: loading ? 'not-allowed' : 'pointer',
+              opacity: loading ? 0.7 : 1
             }}
           >
-            Get New Quote
+            {loading ? 'Loading...' : 'Get New Advice'}
           </button>
         </div>
       </div>
     </div>
   );
 };
+
 export default Header;

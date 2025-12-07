@@ -1,73 +1,219 @@
 import React from 'react';
+
 const CourseList = ({ courses }) => {
-  const getCategoryColor = (category) => {
-    const colors = {
-      Frontend: 'bg-blue-100 text-blue-800',
-      Backend: 'bg-green-100 text-green-800',
-      Design: 'bg-purple-100 text-purple-800',
-      Mobile: 'bg-orange-100 text-orange-800',
-      DevOps: 'bg-red-100 text-red-800'
+  const getCategoryStyle = (category) => {
+    const styles = {
+      Frontend: { backgroundColor: '#dbeafe', color: '#1e40af' },
+      Backend: { backgroundColor: '#d1fae5', color: '#065f46' },
+      Design: { backgroundColor: '#f3e8ff', color: '#5b21b6' },
+      Mobile: { backgroundColor: '#fed7aa', color: '#9a3412' },
+      DevOps: { backgroundColor: '#fecaca', color: '#991b1b' }
     };
-    return colors[category] || 'bg-gray-100 text-gray-800';
+    return styles[category] || { backgroundColor: '#e5e7eb', color: '#374151' };
   };
+
+  const componentStyles = {
+    container: {
+      minHeight: '100vh'
+    },
+    noCourses: {
+      backgroundColor: 'white',
+      borderRadius: '12px',
+      padding: '60px 40px',
+      textAlign: 'center',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    },
+    noCoursesIcon: {
+      fontSize: '48px',
+      marginBottom: '20px'
+    },
+    noCoursesTitle: {
+      fontSize: '24px',
+      fontWeight: 'bold',
+      color: '#1f2937',
+      marginBottom: '12px'
+    },
+    noCoursesText: {
+      color: '#6b7280'
+    },
+    courseGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+      gap: '24px'
+    },
+    courseCard: {
+      backgroundColor: 'white',
+      borderRadius: '12px',
+      padding: '24px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+      transition: 'transform 0.2s, box-shadow 0.2s'
+    },
+    cardHeader: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      marginBottom: '16px'
+    },
+    categoryBadge: {
+      padding: '6px 12px',
+      borderRadius: '20px',
+      fontSize: '12px',
+      fontWeight: '600'
+    },
+    courseIcon: {
+      fontSize: '24px'
+    },
+    courseTitle: {
+      fontSize: '20px',
+      fontWeight: 'bold',
+      color: '#1f2937',
+      marginBottom: '12px'
+    },
+    courseDescription: {
+      color: '#6b7280',
+      marginBottom: '20px',
+      lineHeight: '1.5'
+    },
+    courseInfo: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: '20px',
+      paddingTop: '20px',
+      borderTop: '1px solid #f3f4f6'
+    },
+    instructorInfo: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '12px'
+    },
+    instructorAvatar: {
+      width: '40px',
+      height: '40px',
+      borderRadius: '50%',
+      backgroundColor: '#4f46e5',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: 'white',
+      fontWeight: 'bold'
+    },
+    instructorName: {
+      fontWeight: '600',
+      color: '#374151'
+    },
+    priceSection: {
+      textAlign: 'right'
+    },
+    price: {
+      fontSize: '24px',
+      fontWeight: 'bold',
+      color: '#4f46e5'
+    },
+    priceLabel: {
+      fontSize: '12px',
+      color: '#9ca3af'
+    },
+    stats: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: '14px',
+      color: '#6b7280',
+      marginBottom: '12px'
+    },
+    progressBar: {
+      width: '100%',
+      height: '6px',
+      backgroundColor: '#e5e7eb',
+      borderRadius: '3px',
+      marginBottom: '20px',
+      overflow: 'hidden'
+    },
+    progressFill: {
+      height: '100%',
+      borderRadius: '3px'
+    },
+    enrollButton: {
+      width: '100%',
+      padding: '14px',
+      backgroundColor: '#4f46e5',
+      color: 'white',
+      border: 'none',
+      borderRadius: '8px',
+      fontSize: '16px',
+      fontWeight: '600',
+      cursor: 'pointer',
+      transition: 'background-color 0.2s'
+    }
+  };
+
   if (courses.length === 0) {
     return (
-      <div className="bg-white rounded-xl shadow-sm p-12 text-center">
-        <div className="text-5xl mb-4">🔍</div>
-        <h3 className="text-2xl font-bold text-gray-700 mb-3">No courses found</h3>
-        <p className="text-gray-600 max-w-md mx-auto">
-          Try adjusting your search terms or select a different category
+      <div style={componentStyles.noCourses}>
+        <div style={componentStyles.noCoursesIcon}>🔍</div>
+        <h3 style={componentStyles.noCoursesTitle}>No courses found</h3>
+        <p style={componentStyles.noCoursesText}>
+          Try adjusting your search or select a different category
         </p>
       </div>
     );
   }
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {courses.map((course) => (
-        <div
-          key={course.id}
-          className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow overflow-hidden"
-        >
-          <div className="p-6">
-            <div className="flex justify-between items-start mb-4">
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(course.category)}`}>
+    <div style={componentStyles.courseGrid}>
+      {courses.map((course) => {
+        const categoryStyle = getCategoryStyle(course.category);
+        const progressPercentage = Math.min(100, (course.students / 1000) * 100);
+        
+        return (
+          <div key={course.id} style={componentStyles.courseCard}>
+            <div style={componentStyles.cardHeader}>
+              <span style={{ ...componentStyles.categoryBadge, ...categoryStyle }}>
                 {course.category}
               </span>
-              <div className="text-2xl">📘</div>
+              <span style={componentStyles.courseIcon}>📘</span>
             </div>
-            <h3 className="text-xl font-bold text-gray-800 mb-3">{course.name}</h3>
-            <p className="text-gray-600 mb-6 line-clamp-3">{course.description}</p>
-            <div className="flex items-center justify-between mb-6 pb-6 border-b border-gray-100">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center text-white font-bold">
+            
+            <h3 style={componentStyles.courseTitle}>{course.name}</h3>
+            <p style={componentStyles.courseDescription}>{course.description}</p>
+            
+            <div style={componentStyles.courseInfo}>
+              <div style={componentStyles.instructorInfo}>
+                <div style={componentStyles.instructorAvatar}>
                   {course.instructor.charAt(0)}
                 </div>
-                <span className="font-medium text-gray-700">{course.instructor}</span>
+                <span style={componentStyles.instructorName}>{course.instructor}</span>
               </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-purple-600">Rs.{course.price}</div>
-                <div className="text-sm text-gray-500">per month</div>
-              </div>
-            </div>
-            <div className="mb-6">
-              <div className="flex justify-between text-sm text-gray-600 mb-2">
-                <span>{course.duration} weeks</span>
-                <span>{course.students.toLocaleString()} students</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-purple-500 h-2 rounded-full"
-                  style={{ width: `${Math.min(100, (course.students / 1000) * 100)}%` }}
-                ></div>
+              
+              <div style={componentStyles.priceSection}>
+                <div style={componentStyles.price}>${course.price}</div>
+                <div style={componentStyles.priceLabel}>per month</div>
               </div>
             </div>
-            <button className="w-full py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold rounded-lg transition-all">
+            
+            <div style={componentStyles.stats}>
+              <span>{course.duration} weeks</span>
+              <span>{course.students} students</span>
+            </div>
+            
+            <div style={componentStyles.progressBar}>
+              <div 
+                style={{ 
+                  ...componentStyles.progressFill,
+                  width: `${progressPercentage}%`,
+                  backgroundColor: categoryStyle.color
+                }}
+              />
+            </div>
+            
+            <button style={componentStyles.enrollButton}>
               Enroll Now
             </button>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
+
 export default CourseList;

@@ -1,68 +1,118 @@
 import React, { useState } from 'react';
+
 const SearchBar = ({ onSearch, selectedCategory, setSelectedCategory }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const categories = ['All', 'Frontend', 'Backend', 'Design', 'Mobile', 'DevOps'];
-  const handleSearchChange = (e) => {
+
+  const handleSearch = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
     onSearch(value, selectedCategory);
   };
+
   const handleCategoryChange = (e) => {
     const value = e.target.value;
     setSelectedCategory(value);
     onSearch(searchTerm, value);
   };
+
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
     onSearch(searchTerm, category);
   };
+
+  const styles = {
+    searchContainer: {
+      backgroundColor: 'white',
+      borderRadius: '12px',
+      padding: '24px',
+      marginBottom: '30px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    },
+    searchRow: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '16px',
+      marginBottom: '20px'
+    },
+    searchInputContainer: {
+      flex: '1',
+      position: 'relative'
+    },
+    searchInput: {
+      width: '100%',
+      padding: '16px 16px 16px 48px',
+      fontSize: '16px',
+      border: '1px solid #d1d5db',
+      borderRadius: '8px'
+    },
+    searchIcon: {
+      position: 'absolute',
+      left: '16px',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      color: '#9ca3af'
+    },
+    categorySelect: {
+      width: '100%',
+      padding: '16px',
+      fontSize: '16px',
+      border: '1px solid #d1d5db',
+      borderRadius: '8px',
+      backgroundColor: 'white'
+    },
+    categoryButtons: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '8px'
+    },
+    categoryButton: {
+      padding: '8px 16px',
+      border: 'none',
+      borderRadius: '20px',
+      fontSize: '14px',
+      fontWeight: '500',
+      cursor: 'pointer'
+    }
+  };
+
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
-        {/* Search Input */}
-        <div className="flex-1">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search courses by name, instructor, or topic..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="w-full p-4 pl-12 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-100 outline-none transition-all"
-            />
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-              🔍
-            </div>
-          </div>
+    <div style={styles.searchContainer}>
+      <div style={styles.searchRow}>
+        <div style={styles.searchInputContainer}>
+          <span style={styles.searchIcon}>🔍</span>
+          <input
+            type="text"
+            placeholder="Search courses by name, instructor, or topic..."
+            value={searchTerm}
+            onChange={handleSearch}
+            style={styles.searchInput}
+          />
         </div>
-        <div className="w-full md:w-48">
-          <div className="relative">
-            <select
-              value={selectedCategory}
-              onChange={handleCategoryChange}
-              className="w-full p-4 rounded-lg border border-gray-300 bg-white text-gray-700 focus:border-purple-500 focus:ring-2 focus:ring-purple-100 outline-none appearance-none"
-            >
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category === 'All' ? 'All Categories' : category}
-                </option>
-              ))}
-            </select>
-            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-              ▼
-            </div>
-          </div>
-        </div>
+        
+        <select
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          style={styles.categorySelect}
+        >
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category === 'All' ? 'All Categories' : category}
+            </option>
+          ))}
+        </select>
       </div>
-      <div className="flex flex-wrap gap-2">
+      
+      <div style={styles.categoryButtons}>
         {categories.slice(1).map((category) => (
           <button
             key={category}
             onClick={() => handleCategoryClick(category)}
-            className={`px-4 py-2 rounded-lg font-medium transition-all ${
-              selectedCategory === category
-                ? 'bg-purple-500 text-white shadow-sm'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+            style={{
+              ...styles.categoryButton,
+              backgroundColor: selectedCategory === category ? '#4f46e5' : '#f3f4f6',
+              color: selectedCategory === category ? 'white' : '#374151'
+            }}
           >
             {category}
           </button>
@@ -71,4 +121,5 @@ const SearchBar = ({ onSearch, selectedCategory, setSelectedCategory }) => {
     </div>
   );
 };
+
 export default SearchBar;
