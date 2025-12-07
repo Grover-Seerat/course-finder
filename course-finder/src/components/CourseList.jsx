@@ -184,18 +184,15 @@ const CourseList = ({ courses }) => {
                 </div>
                 <span style={componentStyles.instructorName}>{course.instructor}</span>
               </div>
-              
               <div style={componentStyles.priceSection}>
-                <div style={componentStyles.price}>${course.price}</div>
+                <div style={componentStyles.price}>Rs.{course.price}</div>
                 <div style={componentStyles.priceLabel}>per month</div>
               </div>
             </div>
-            
             <div style={componentStyles.stats}>
               <span>{course.duration} weeks</span>
               <span>{course.students} students</span>
-            </div>
-            
+            </div>           
             <div style={componentStyles.progressBar}>
               <div 
                 style={{ 
@@ -205,7 +202,6 @@ const CourseList = ({ courses }) => {
                 }}
               />
             </div>
-            
             <button style={componentStyles.enrollButton}>
               Enroll Now
             </button>
@@ -215,5 +211,4 @@ const CourseList = ({ courses }) => {
     </div>
   );
 };
-
 export default CourseList;

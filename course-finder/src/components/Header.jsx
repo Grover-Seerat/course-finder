@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-
 const Header = () => {
   const [advice, setAdvice] = useState('Click button to get advice');
   const [loading, setLoading] = useState(false);
-
   const getAdvice = () => {
     setLoading(true);
-    
-    // Using fetch with .then() syntax (simpler)
     fetch('https://api.adviceslip.com/advice')
       .then(response => {
         if (!response.ok) {
@@ -30,11 +26,9 @@ const Header = () => {
         setLoading(false);
       });
   };
-
   useEffect(() => {
-    getAdvice(); // Load advice on component mount
+    getAdvice();
   }, []);
-
   return (
     <div style={{
       background: 'white',
@@ -99,7 +93,7 @@ const Header = () => {
               opacity: loading ? 0.7 : 1
             }}
           >
-            {loading ? 'Loading...' : 'Get New Advice'}
+            {loading ? 'Loading...' : 'Get New quote'}
           </button>
         </div>
       </div>

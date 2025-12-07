@@ -3,15 +3,15 @@ import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import CourseList from './components/CourseList';
 const initialCourses = [
-  { id: 1, name: "React Fundamentals", category: "Frontend", instructor: "Sania", description: "Master React from scratch. Learn hooks, state management, and modern React practices.", price: 99, duration: 8, students: 845 },
-  { id: 2, name: "Advanced JavaScript", category: "Frontend", instructor: "Jagmohan singh", description: "Deep dive into ES6+, async/await, design patterns, and performance optimization.", price: 129, duration: 10, students: 721 },
-  { id: 3, name: "UI/UX Design Principles", category: "Design", instructor: "Maria", description: "Learn design thinking, user research, wireframing, and prototyping.", price: 89, duration: 6, students: 512 },
-  { id: 4, name: "Backend with Node.js", category: "Backend", instructor: "Kapil", description: "Build scalable backend systems with Node.js, Express, and MongoDB.", price: 149, duration: 12, students: 623 },
-  { id: 5, name: "Flutter Mobile Development", category: "Mobile", instructor: "Kartik", description: "Create beautiful cross-platform mobile apps with Flutter and Dart.", price: 119, duration: 9, students: 934 },
-  { id: 6, name: "DevOps & CI/CD", category: "DevOps", instructor: "Khushmita", description: "Master Docker, Kubernetes, Jenkins, and cloud deployment strategies.", price: 159, duration: 11, students: 456 },
-  { id: 7, name: "Vue.js Complete Guide", category: "Frontend", instructor: "Sameer", description: "From Vue basics to advanced patterns, Vuex, and Vue Router.", price: 109, duration: 7, students: 389 },
-  { id: 8, name: "Python Data Science", category: "Backend", instructor: "Ritika", description: "Learn pandas, numpy, matplotlib, and machine learning with Python.", price: 139, duration: 10, students: 678 },
-  { id: 9, name: "iOS Development with Swift", category: "Mobile", instructor: "Rohit", description: "Build native iOS apps using Swift and SwiftUI framework.", price: 149, duration: 12, students: 412 }
+  { id: 1, name: "React Fundamentals", category: "Frontend", instructor: "Sania", description: "Master React from scratch. Learn hooks, state management, and modern React practices.", price: 9900, duration: 8, students: 845 },
+  { id: 2, name: "Advanced JavaScript", category: "Frontend", instructor: "Jagmohan singh", description: "Deep dive into ES6+, async/await, design patterns, and performance optimization.", price: 2200, duration: 10, students: 721 },
+  { id: 3, name: "UI/UX Design Principles", category: "Design", instructor: "Maria", description: "Learn design thinking, user research, wireframing, and prototyping.", price: 8900, duration: 6, students: 512 },
+  { id: 4, name: "Backend with Node.js", category: "Backend", instructor: "Kapil", description: "Build scalable backend systems with Node.js, Express, and MongoDB.", price: 4900, duration: 12, students: 623 },
+  { id: 5, name: "Flutter Mobile Development", category: "Mobile", instructor: "Kartik", description: "Create beautiful cross-platform mobile apps with Flutter and Dart.", price: 8000, duration: 9, students: 934 },
+  { id: 6, name: "DevOps & CI/CD", category: "DevOps", instructor: "Khushmita", description: "Master Docker, Kubernetes, Jenkins, and cloud deployment strategies.", price: 5999, duration: 11, students: 456 },
+  { id: 7, name: "Vue.js Complete Guide", category: "Frontend", instructor: "Sameer", description: "From Vue basics to advanced patterns, Vuex, and Vue Router.", price: 4999, duration: 7, students: 389 },
+  { id: 8, name: "Python Data Science", category: "Backend", instructor: "Ritika", description: "Learn pandas, numpy, matplotlib, and machine learning with Python.", price: 3999, duration: 10, students: 678 },
+  { id: 9, name: "iOS Development with Swift", category: "Mobile", instructor: "Rohit", description: "Build native iOS apps using Swift and SwiftUI framework.", price: 2999, duration: 12, students: 412 }
 ];
 function App() {
   const [filteredCourses, setFilteredCourses] = useState(initialCourses);
@@ -27,8 +27,7 @@ function App() {
         course.category.toLowerCase().includes(term)
       );
     }
-    
-    // Filter by category
+
     if (category !== 'All') {
       filtered = filtered.filter(course => course.category === category);
     }
